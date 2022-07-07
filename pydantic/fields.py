@@ -2,6 +2,7 @@ import copy
 from collections import Counter as CollectionCounter, defaultdict, deque
 from collections.abc import Hashable as CollectionsHashable, Iterable as CollectionsIterable
 from typing import (
+    overload,
     TYPE_CHECKING,
     Any,
     Counter,
@@ -23,6 +24,7 @@ from typing import (
     TypeVar,
     Union,
 )
+from types import EllipsisType
 
 from typing_extensions import Annotated
 
@@ -213,8 +215,9 @@ class FieldInfo(Representation):
             raise ValueError('cannot specify both default and default_factory')
 
 
+@overload
 def Field(
-    default: Any = Undefined,
+    default: EllipsisType,
     *,
     default_factory: Optional[NoArgAnyCallable] = None,
     alias: str = None,
@@ -241,6 +244,69 @@ def Field(
     repr: bool = True,
     **extra: Any,
 ) -> Any:
+    ...
+
+
+@overload
+def Field(
+    default: T,
+    *,
+    default_factory: Optional[NoArgAnyCallable] = None,
+    alias: str = None,
+    title: str = None,
+    description: str = None,
+    exclude: Union['AbstractSetIntStr', 'MappingIntStrAny', Any] = None,
+    include: Union['AbstractSetIntStr', 'MappingIntStrAny', Any] = None,
+    const: bool = None,
+    gt: float = None,
+    ge: float = None,
+    lt: float = None,
+    le: float = None,
+    multiple_of: float = None,
+    max_digits: int = None,
+    decimal_places: int = None,
+    min_items: int = None,
+    max_items: int = None,
+    unique_items: bool = None,
+    min_length: int = None,
+    max_length: int = None,
+    allow_mutation: bool = True,
+    regex: str = None,
+    discriminator: str = None,
+    repr: bool = True,
+    **extra: Any,
+) -> T:
+    ...
+
+
+def Field(
+    default,
+    *,
+    default_factory=None,
+    alias=None,
+    title=None,
+    description=None,
+    exclude=None,
+    include=None,
+    const=None,
+    gt=None,
+    ge=None,
+    lt=None,
+    le=None,
+    multiple_of=None,
+    max_digits=None,
+    decimal_places=None,
+    min_items=None,
+    max_items=None,
+    unique_items=None,
+    min_length=None,
+    max_length=None,
+    allow_mutation=True,
+    regex=None,
+    discriminator=None,
+    repr=True,
+    **extra,
+):
     """
     Used to provide extra information about a field, either for the model schema or complex validation. Some arguments
     apply only to number fields (``int``, ``float``, ``Decimal``) and some apply only to ``str``.
