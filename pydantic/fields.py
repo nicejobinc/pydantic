@@ -279,8 +279,38 @@ def Field(
     ...
 
 
+@overload
 def Field(
-    default,
+    default_factory: Optional[NoArgAnyCallable] = None,
+    alias: str = None,
+    title: str = None,
+    description: str = None,
+    exclude: Union['AbstractSetIntStr', 'MappingIntStrAny', Any] = None,
+    include: Union['AbstractSetIntStr', 'MappingIntStrAny', Any] = None,
+    const: bool = None,
+    gt: float = None,
+    ge: float = None,
+    lt: float = None,
+    le: float = None,
+    multiple_of: float = None,
+    max_digits: int = None,
+    decimal_places: int = None,
+    min_items: int = None,
+    max_items: int = None,
+    unique_items: bool = None,
+    min_length: int = None,
+    max_length: int = None,
+    allow_mutation: bool = True,
+    regex: str = None,
+    discriminator: str = None,
+    repr: bool = True,
+    **extra: Any,
+) -> Any:
+    ...
+
+
+def Field(
+    default=Undefined,
     *,
     default_factory=None,
     alias=None,
